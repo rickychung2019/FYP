@@ -38,9 +38,10 @@ def fitness(individual, extra = 0):
     print("Alpha,", individual[0], "Depth_multiplier,", individual[1], "Activation,", individual[2],
         "Use_bias,", individual[3], "Dropout,", individual[4], "Pooling,", individual[5], "Optimizer,", individual[6],
         "Kernel_regularizer,", individual[7], "Bias_regularizer,", individual[8], "Activity_regularizer,", individual[9])
-    f.write("Alpha,"+str(individual[0])+"Depth_multiplier,"+str(individual[1])+"Activation,"+str(individual[2])+
-        "Use_bias,"+str(individual[3])+"Dropout,"+str(individual[4])+"Pooling,"+str(individual[5])+
-        "Optimizer,"+str(individual[6])+"Kernel_regularizer,"+str(individual[7])+"Bias_regularizer,"+str(individual[8])+"Activity_regularizer,"+str(individual[9])+"\n")
+    f.write("Alpha,"+str(individual[0])+","+"Depth_multiplier,"+str(individual[1])+","+"Activation,"+str(individual[2])+","+
+        "Use_bias,"+str(individual[3])+","+"Dropout,"+str(individual[4])+","+"Pooling,"+str(individual[5])+","+
+        "Optimizer,"+str(individual[6])+","+"Kernel_regularizer,"+str(individual[7])+","+"Bias_regularizer,"+str(individual[8])+","+
+        "Activity_regularizer,"+str(individual[9])+"\n")
     model = m.MobileNet(individual[0], individual[1], individual[2], individual[3], individual[4], individual[5], individual[6], individual[7], individual[8], individual[9]).model(input_shape=x_train[0].shape)
     start = time.time()
     history = model.fit(x_train, y_train, validation_data=(x_test,y_test), epochs=epochs, batch_size=batch_size)
