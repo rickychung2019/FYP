@@ -7,6 +7,7 @@ import time
 import copy
 batch_size = 8
 
+print("Loading Dataset....")
 #Load cifar10
 # (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
 # y_train = tf.keras.utils.to_categorical(y_train, 10)
