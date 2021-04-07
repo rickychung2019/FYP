@@ -17,7 +17,7 @@ print("Loading Dataset....")
 #x_train, y_train, x_test, y_test = d.FERLoad()
 
 #Load ExpW
-x_train, y_train, x_test, y_test = d.ExpwLoad('origin', 0.5)
+x_train, y_train, x_test, y_test = d.ExpwLoad('origin', 0.2)
 
 def individual(pos):
     return m.getParam()[pos]
