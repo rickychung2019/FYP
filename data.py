@@ -17,7 +17,37 @@ def FERLoad():
 
     return x_train, y_train, x_test, y_test
 
-def ExpWCut(im_path):
+def ExpwLoadFromNp(im_path):
+    f1 = open(im_path+'/'+"x_train.npy",'r')
+    f2 = open(im_path+'/'+"y_train.npy",'r')
+    f3 = open(im_path+'/'+"x_test.npy",'r')
+    f4 = open(im_path+'/'+"y_test.npy",'r')
+    return np.load(f1), np.load(f2), np.load(f3), np.load(f4)
+
+def ExpwLoad(im_path, portion):
+    x_train, y_train, x_test, y_test = [], [], [], []
+    f = open(im_path+'/'+"label.lst",'r')
+    i = 0
+    end = int(88600*portion)
+    train = int(end*0.75)
+    for x in f:
+        data = x.split()
+        i += 1
+        im = Image.open(im_path+'/'+"image/"+data[1]+'_'+data[0])
+        im = np.asarray(im)
+
+        if i<=train:
+            x_train.append(im)
+            y_train.append(data[7])
+        else:
+            x_test.append(im)
+            y_test.append(data[7])
+        if i==end:
+            break
+    return np.asarray(x_train), tf.keras.utils.to_categorical(np.asarray(y_train)), np.asarray(x_test), tf.keras.utils.to_categorical(np.asarray(y_test))
+
+
+def ExpwCut(im_path):
     f = open(im_path+'/'+"label.lst",'r')
     for x in f:
         data = x.split()
@@ -26,26 +56,7 @@ def ExpWCut(im_path):
         im.save(im_path+'/'+"image/"+data[1]+'_'+data[0],format="JPEG")
 
 
-def ExpWLoad(im_path):
-    x_train, y_train, x_test, y_test = [], [], [], []
-    f = open(im_path+'/'+"label.lst",'r')
-    i = 0
-    n = int(88600*0.75)
-    for x in f:
-        data = x.split()
-        i += 1
-        im = Image.open(im_path+'/'+"image/"+data[1]+'_'+data[0])
-        im = np.asarray(im)
-
-        if i<=n:
-            x_train.append(im)
-            y_train.append(data[7])
-        else:
-            x_test.append(im)
-            y_test.append(data[7])
-    return np.asarray(x_train), tf.keras.utils.to_categorical(np.asarray(y_train)), np.asarray(x_test), tf.keras.utils.to_categorical(np.asarray(y_test))
-
-def ExpWResize(im_path):
+def ExpwResize(im_path):
     f = open(im_path+'/'+"label.lst",'r')
     size = (224,224)
     for x in f:

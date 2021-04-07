@@ -5,7 +5,7 @@ from random import randint
 import data as d
 import time
 import copy
-batch_size = 8
+batch_size = 32
 
 print("Loading Dataset....")
 #Load cifar10
@@ -17,7 +17,7 @@ print("Loading Dataset....")
 #x_train, y_train, x_test, y_test = d.FERLoad()
 
 #Load ExpW
-x_train, y_train, x_test, y_test = d.ExpWLoad('origin')
+x_train, y_train, x_test, y_test = d.ExpwLoad('origin', 0.5)
 
 def individual(pos):
     return m.getParam()[pos]

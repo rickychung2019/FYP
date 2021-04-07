@@ -31,8 +31,8 @@ for i in range(numOfParam):
 
 
 f = open("log.txt", "a")
-f.write("ParamRange: "+str(paramRange[0])+" "+str(paramRange[1])+" "+str(paramRange[2])+" "+str(paramRange[3])+" "+str(paramRange[4])+" "+
-    str(paramRange[5])+" "+str(paramRange[6])+" "+str(paramRange[7])+" "+str(paramRange[8])+" "+str(paramRange[9])+"\n")
+f.write("ParamRange,"+str(paramRange[0])+","+str(paramRange[1])+","+str(paramRange[2])+","+str(paramRange[3])+","+str(paramRange[4])+","+
+    str(paramRange[5])+","+str(paramRange[6])+","+str(paramRange[7])+","+str(paramRange[8])+","+str(paramRange[9])+"\n")
 f.close()
 
 # 2d genetic
