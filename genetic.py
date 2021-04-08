@@ -30,15 +30,17 @@ def population(count, pos):
     activation=relu
     use_bias=True
     dropout=0.001
-    pooling=AveragePooling2D()
+
     optimizer='nadam'
     kernel_regularizer=[None]
     bias_regularizer=[None]
     activity_regularizer=[None]
-    tmp = [alpha, depth_multiplier, activation, use_bias, dropout, pooling, optimizer, kernel_regularizer, bias_regularizer, activity_regularizer]
+
     for i in range(count):
+        pooling=AveragePooling2D()
+        tmp = [alpha, depth_multiplier, activation, use_bias, dropout, pooling, optimizer, kernel_regularizer, bias_regularizer, activity_regularizer]
         tmp[pos] = m.getParam(pos)
-        pop.append(tmp)
+        pop.append(copy.deepcopy(tmp))
     return pop
 
 def fitness(individual, extra = 0):
