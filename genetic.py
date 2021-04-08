@@ -14,10 +14,10 @@ print("Loading Dataset....")
 # y_test = tf.keras.utils.to_categorical(y_test, 10)
 
 #Load FER2013
-#x_train, y_train, x_test, y_test = d.FERLoad()
+x_train, y_train, x_test, y_test = d.FERLoad()
 
 #Load ExpW
-x_train, y_train, x_test, y_test = d.ExpwLoad('origin', 0.2)
+#x_train, y_train, x_test, y_test = d.ExpwLoad('origin', 0.1)
 
 def individual(pos):
     return m.getParam()[pos]
@@ -25,12 +25,20 @@ def individual(pos):
 
 def population(count, pos):
     pop = []
-    tmp = m.getParam()
+    alpha=1
+    depth_multiplier=1
+    activation=relu
+    use_bias=True
+    dropout=0.001
+    pooling=AveragePooling2D()
+    optimizer='nadam'
+    kernel_regularizer=[None]
+    bias_regularizer=[None]
+    activity_regularizer=[None]
+    tmp = [alpha, depth_multiplier, activation, use_bias, dropout, pooling, optimizer, kernel_regularizer, bias_regularizer, activity_regularizer]
     for i in range(count):
-        a = individual(pos)
-        tmp[pos] = a
-        tmp1 = copy.deepcopy(tmp)
-        pop.append(tmp1)
+        tmp[pos] = m.getParam(pos)
+        pop.append(tmp)
     return pop
 
 def fitness(individual, extra = 0):
@@ -77,12 +85,7 @@ def evolve(pop, pos, ln, retain=0.2, random_select=0.05, mutate=0.01, extra = 0,
     # mutate some individuals
     for individual in parents:
         if mutate > random.random():
-            print(individual)
-            alpha = random.uniform(0, 3)
-            depth_multiplier = random.choice([1, 2, 3])
-            individual[0] = alpha
-            individual[1] = depth_multiplier
-            print(individual)
+            individual = m.getParam()
 
     # crossover parents to create children
     parents_length = len(parents)

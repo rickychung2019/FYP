@@ -1,10 +1,10 @@
 import genetic as g
 
 # modify setting here
-pop1d = 20
-pop2d = 20
+pop1d = 200
+pop2d = 200
 numOfGen1d = 1
-numOfGen2d = 1
+numOfGen2d = 4
 numOfParam = 10
 
 
@@ -27,7 +27,6 @@ for i in range(numOfParam):
         f.close()
         p, tmp = g.evolve(p, i, 1)
     paramRange.append(g.getParamRange(p, i))
-    print(paramRange)
 
 
 f = open("log.txt", "a")
@@ -48,7 +47,7 @@ for i in range(1, numOfGen2d+1):
     f = open("log.txt", "a")
     f.write(str(i)+"Evolution\n")
     f.close()
-    extra = int(i/2)
+    extra = int(i)
     p, tmp = g.evolve(p, 0, numOfParam, extra = extra)
     fitness_history.append(tmp)
 
