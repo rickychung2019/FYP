@@ -4,10 +4,11 @@ from random import randint
 from tensorflow.keras.layers import Input, AveragePooling2D, GlobalAveragePooling2D, GlobalMaxPooling2D, MaxPooling2D, BatchNormalization, DepthwiseConv2D, Conv2D, Flatten, Dense, Dropout
 from tensorflow.keras.activations import relu, sigmoid, softmax, softplus, softsign, tanh, selu, elu, exponential
 from tensorflow.keras.regularizers import l1, l2, l1_l2
+from tensorflow.keras.optimizers import SGD, RMSprop, Adam, Adadelta, Adagrad, Adamax, Nadam, Ftrl
 random.seed(1)
 
 def getParam(pos=None):
-    alpha = random.uniform(0,3)
+    alpha = random.uniform(0.1 ,3)
 
     depth_multiplier = random.choice([1,2,3])
 
@@ -19,7 +20,7 @@ def getParam(pos=None):
 
     pooling = random.choice([None, AveragePooling2D(), GlobalAveragePooling2D(), GlobalMaxPooling2D(), MaxPooling2D()])
 
-    optimizer = random.choice(['sgd', 'adam', 'rmsprop', 'adadelta', 'adagrad', 'adamax', 'nadam', 'ftrl'])
+    optimizer = random.choice([SGD, RMSprop, Adam, Adadelta, Adagrad, Adamax, Nadam, Ftrl])
 
     kernel_regularizer = [random.choice([None,l1,l2,l1_l2])]
     if kernel_regularizer[0] == l1_l2:
@@ -152,7 +153,7 @@ class MobileNet(tf.keras.Model):
         for layer in model.layers:
             layer.trainable=True
         model.compile(
-          optimizer=self.optimizer,
+          optimizer=self.optimizer(0.01),
           loss='categorical_crossentropy',
           metrics=['accuracy'],
         )

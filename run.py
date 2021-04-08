@@ -1,7 +1,7 @@
 import genetic as g
 
 # modify setting here
-pop1d = 200
+pop1d = 50
 pop2d = 200
 numOfGen1d = 1
 numOfGen2d = 4
