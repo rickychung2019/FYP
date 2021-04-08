@@ -5,6 +5,11 @@ from random import randint
 import data as d
 import time
 import copy
+from tensorflow.keras.layers import Input, AveragePooling2D, GlobalAveragePooling2D, GlobalMaxPooling2D, MaxPooling2D, BatchNormalization, DepthwiseConv2D, Conv2D, Flatten, Dense, Dropout
+from tensorflow.keras.activations import relu, sigmoid, softmax, softplus, softsign, tanh, selu, elu, exponential
+from tensorflow.keras.regularizers import l1, l2, l1_l2
+from tensorflow.keras.optimizers import SGD, RMSprop, Adam, Adadelta, Adagrad, Adamax, Nadam, Ftrl
+
 batch_size = 32
 
 print("Loading Dataset....")
@@ -18,6 +23,7 @@ x_train, y_train, x_test, y_test = d.FERLoad()
 
 #Load ExpW
 #x_train, y_train, x_test, y_test = d.ExpwLoad('origin', 0.1)
+print("Dataset Loaded")
 
 def individual(pos):
     return m.getParam()[pos]
@@ -31,7 +37,7 @@ def population(count, pos):
     use_bias=True
     dropout=0.001
 
-    optimizer='nadam'
+    optimizer=Nadam
     kernel_regularizer=[None]
     bias_regularizer=[None]
     activity_regularizer=[None]

@@ -57,7 +57,7 @@ def getParam(pos=None):
         return individual[pos]
 
 class MobileNet(tf.keras.Model):
-    def __init__(self, alpha=1, depth_multiplier=1, activation=relu, use_bias=True, dropout=0.001, pooling=AveragePooling2D(), optimizer='nadam', kernel_regularizer=[None], bias_regularizer=[None], activity_regularizer=[None]):
+    def __init__(self, alpha=1, depth_multiplier=1, activation=relu, use_bias=True, dropout=0.001, pooling=AveragePooling2D(), optimizer=Nadam, kernel_regularizer=[None], bias_regularizer=[None], activity_regularizer=[None]):
         super(MobileNet, self).__init__()
         self.alpha = alpha
         self.depth_multiplier = depth_multiplier
