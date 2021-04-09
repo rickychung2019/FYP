@@ -48,7 +48,7 @@ for i in range(1, numOfGen2d+1):
     f.write(str(i)+"Evolution\n")
     f.close()
     extra = int(i)
-    p, tmp = g.evolve(p, 0, numOfParam, extra = extra)
+    p, tmp = g.evolve(p2, 0, numOfParam, extra = extra)
     fitness_history.append(tmp)
 
 print("#############################################################")
