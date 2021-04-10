@@ -3,6 +3,7 @@ from tensorflow.keras.layers import Input, AveragePooling2D, GlobalAveragePoolin
 from tensorflow.keras.activations import relu, sigmoid, softmax, softplus, softsign, tanh, selu, elu, exponential
 from tensorflow.keras.regularizers import l1, l2, l1_l2
 from tensorflow.keras.optimizers import SGD, RMSprop, Adam, Adadelta, Adagrad, Adamax, Nadam, Ftrl
+import time
 # modify setting here
 alpha_list = [i*0.5 for i in range(1, 6+1)] #6 choices 0.5, 1, 1.5, ...3
 depth_multiplier_list = [1,2,3] #3 choices
@@ -15,7 +16,7 @@ kernel_regularizer_list =[None,l1,l2,l1_l2] # 3 choices
 bias_regularizer_list =[None,l1,l2,l1_l2] # 3 choices
 activation_regularizer_list =[None,l1,l2,l1_l2] # 3 choices
 
-paramRange1 = [alpha_list, depth_multiplier_list, activation_list, bias_list, dropout_list, optimizer_list, kernel_regularizer_list, bias_regularizer_list, activation_regularizer_list]
+paramRange1 = [alpha_list, depth_multiplier_list, activation_list, bias_list, dropout_list, pooling_list, optimizer_list, kernel_regularizer_list, bias_regularizer_list, activation_regularizer_list]
 paramRange2 = []
 
 pop2d = 200
@@ -26,7 +27,7 @@ numOfParam = 10
 
 fitness_history = []
 paramRange = []
-
+start = time.time()
 # 1d genetic
 for i in range(numOfParam):
     p = g.population(paramRange1[i], i)
@@ -79,5 +80,13 @@ print("#############################################################")
 print("#############################################################")
 print("#############################################################")
 
+end = time.time()
+
 for datum in fitness_history:
     print(datum)
+
+f = open("log.txt", "a")
+cost = end - start
+f.write("Time Spent\n")
+f.wrtie(str(cost))
+f.close()

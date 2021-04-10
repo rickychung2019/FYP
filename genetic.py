@@ -28,7 +28,7 @@ print("Dataset Loaded")
 def population(paramRange, pos):
     pop = []
 
-    template = [1,1,0,'avg', 'nadam']
+    template = [1,1,relu,True, 0.0, AveragePooling2D(), Nadam, None, None, None]
 
     for param in paramRange:
         individual = copy.deepcopy(template)
@@ -51,11 +51,11 @@ def fitness(individual, extra = 0):
     history = model.fit(x_train, y_train, validation_data=(x_test,y_test), epochs=epochs, batch_size=batch_size)
     end = time.time()
     cost = (end - start)/epochs
-    f.write(str(history.history['val_acc'][-1])+','+str(cost)+"\n")
+    f.write(str(history.history['val_accuracy'][-1])+','+str(cost)+"\n")
     #f.write(str(history.history['val_accuracy'][-1])+"\n")
     f.close()
     tf.keras.backend.clear_session()
-    score = history.history['val_acc'][-1] - cost/1000
+    score = history.history['val_accuracy'][-1] - cost/1000
     return score
 
 def grade(pop, extra = 0):
