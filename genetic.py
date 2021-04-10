@@ -25,28 +25,15 @@ x_train, y_train, x_test, y_test = d.FERLoad()
 #x_train, y_train, x_test, y_test = d.ExpwLoad('origin', 0.1)
 print("Dataset Loaded")
 
-def individual(pos):
-    return m.getParam()[pos]
-
-
-def population(count, pos):
+def population(paramRange, pos):
     pop = []
-    alpha=1
-    depth_multiplier=1
-    activation=relu
-    use_bias=True
-    dropout=0.001
 
-    optimizer=Nadam
-    kernel_regularizer=[None]
-    bias_regularizer=[None]
-    activity_regularizer=[None]
+    template = [1,1,0,'avg', 'nadam']
 
-    for i in range(count):
-        pooling=AveragePooling2D()
-        tmp = [alpha, depth_multiplier, activation, use_bias, dropout, pooling, optimizer, kernel_regularizer, bias_regularizer, activity_regularizer]
-        tmp[pos] = m.getParam(pos)
-        pop.append(copy.deepcopy(tmp))
+    for param in paramRange:
+        individual = copy.deepcopy(template)
+        individual[pos] = param
+        pop.append(individual)
     return pop
 
 def fitness(individual, extra = 0):
@@ -64,11 +51,11 @@ def fitness(individual, extra = 0):
     history = model.fit(x_train, y_train, validation_data=(x_test,y_test), epochs=epochs, batch_size=batch_size)
     end = time.time()
     cost = (end - start)/epochs
-    f.write(str(history.history['val_acc'][-1])+','+str(cost)+"\n")
+    f.write(str(history.history['val_accuracy'][-1])+','+str(cost)+"\n")
     #f.write(str(history.history['val_accuracy'][-1])+"\n")
     f.close()
     tf.keras.backend.clear_session()
-    score = history.history['val_acc'][-1] - cost/1000
+    score = history.history['val_accuracy'][-1] - cost/1000
     return score
 
 def grade(pop, extra = 0):
@@ -117,22 +104,25 @@ def evolve(pop, pos, ln, retain=0.2, random_select=0.05, mutate=0.01, extra = 0,
     return parents, sum(fit) / (len(pop) * 1.0)
 
 def getParamRange(pop, pos):
-    ln = int(len(pop) / 4)
-    tmp = pop[:ln]
-    tmp2 = []
-    for i in range(len(tmp)):
-        tmp2.append(tmp[i][pos])
-    if type(tmp[0][pos])==type(1) or type(tmp[0][pos])==type(1.0):
-        return [min(tmp2), max(tmp2)]
-    else:
-        return tmp2
+    ln = int((len(pop)+1) / 2)
+    index = 0
+    tmp = []
+    while ln!=0:
+        if pop[index][pos] in tmp:
+            pass
+        else:
+            tmp.append(pop[index][pos])
+            ln -=1
+        index +=1
+
+    return tmp
 
 def individual2d(alpha_r, depth_multiplier_r, activation_r, use_bias_r, dropout_r, pooling_r, optimizer_r, kernel_regularizer_r, bias_regularizer_r, activity_regularizer_r):
-    alpha = random.uniform(alpha_r[0], alpha_r[1])
-    depth_multiplier = random.choice(range(depth_multiplier_r[0],depth_multiplier_r[1]+1))
-    dropout = random.uniform(dropout_r[0], dropout_r[1])
+    alpha = random.choice(alpha_r)
+    depth_multiplier = random.choice(depth_multiplier_r)
     activation = random.choice(activation_r)
     use_bias = random.choice(use_bias_r)
+    dropout = random.choice(dropout_r)
     pooling = random.choice(pooling_r)
     optimizer = random.choice(optimizer_r)
     kernel_regularizer = random.choice(kernel_regularizer_r)

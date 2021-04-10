@@ -7,57 +7,8 @@ from tensorflow.keras.regularizers import l1, l2, l1_l2
 from tensorflow.keras.optimizers import SGD, RMSprop, Adam, Adadelta, Adagrad, Adamax, Nadam, Ftrl
 random.seed(1)
 
-def getParam(pos=None):
-    alpha = random.uniform(0.1 ,3)
-
-    depth_multiplier = random.choice([1,2,3])
-
-    activation = random.choice([relu, sigmoid, softmax, softplus, softsign, tanh, selu, elu, exponential])
-
-    use_bias = bool(random.choice([0,1]))
-
-    dropout = random.uniform(0, 1)
-
-    pooling = random.choice([None, AveragePooling2D(), GlobalAveragePooling2D(), GlobalMaxPooling2D(), MaxPooling2D()])
-
-    optimizer = random.choice([SGD, RMSprop, Adam, Adadelta, Adagrad, Adamax, Nadam, Ftrl])
-
-    kernel_regularizer = [random.choice([None,l1,l2,l1_l2])]
-    if kernel_regularizer[0] == l1_l2:
-        kernel_regularizer.append(random.uniform(1e-4,1e-2))
-        kernel_regularizer.append(random.uniform(1e-4,1e-2))
-    elif kernel_regularizer[0] is None:
-        pass
-    else:
-        kernel_regularizer.append(random.uniform(1e-4,1e-2))
-
-    bias_regularizer = [random.choice([None,l1,l2,l1_l2])]
-    if bias_regularizer[0] == l1_l2:
-        bias_regularizer.append(random.uniform(1e-4,1e-2))
-        bias_regularizer.append(random.uniform(1e-4,1e-2))
-    elif bias_regularizer[0] is None:
-        pass
-    else:
-        bias_regularizer.append(random.uniform(1e-4,1e-2))
-
-    activity_regularizer = [random.choice([None,l1,l2,l1_l2])]
-    if activity_regularizer[0] == l1_l2:
-        activity_regularizer.append(random.uniform(1e-4,1e-2))
-        activity_regularizer.append(random.uniform(1e-4,1e-2))
-    elif activity_regularizer[0] is None:
-        pass
-    else:
-        activity_regularizer.append(random.uniform(1e-4,1e-2))
-
-    individual = [alpha, depth_multiplier, activation, use_bias, dropout, pooling, optimizer, kernel_regularizer, bias_regularizer, activity_regularizer]
-
-    if pos is None:
-        return individual
-    else:
-        return individual[pos]
-
 class MobileNet(tf.keras.Model):
-    def __init__(self, alpha=1, depth_multiplier=1, activation=relu, use_bias=True, dropout=0.001, pooling=AveragePooling2D(), optimizer=Nadam, kernel_regularizer=[None], bias_regularizer=[None], activity_regularizer=[None]):
+    def __init__(self, alpha=1, depth_multiplier=1, activation=relu, use_bias=True, dropout=0.001, pooling=AveragePooling2D(), optimizer=Nadam, kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None):
         super(MobileNet, self).__init__()
         self.alpha = alpha
         self.depth_multiplier = depth_multiplier
@@ -66,26 +17,9 @@ class MobileNet(tf.keras.Model):
         self.pooling = pooling
         self.dropoutRate = dropout
         self.optimizer = optimizer
-        if kernel_regularizer[0] is None:
-            self.kernel_regularizer = kernel_regularizer[0]
-        elif kernel_regularizer[0] == l1_l2:
-            self.kernel_regularizer = kernel_regularizer[0](l1=kernel_regularizer[1],l2=kernel_regularizer[2])
-        else:
-            self.kernel_regularizer = kernel_regularizer[0](kernel_regularizer[1])
-
-        if bias_regularizer[0] is None:
-            self.bias_regularizer = bias_regularizer[0]
-        elif bias_regularizer[0] == l1_l2:
-            self.bias_regularizer = bias_regularizer[0](l1=bias_regularizer[1],l2=bias_regularizer[2])
-        else:
-            self.bias_regularizer = bias_regularizer[0](bias_regularizer[1])
-
-        if activity_regularizer[0] is None:
-            self.activity_regularizer = activity_regularizer[0]
-        elif activity_regularizer[0] == l1_l2:
-            self.activity_regularizer = activity_regularizer[0](l1=activity_regularizer[1],l2=activity_regularizer[2])
-        else:
-            self.activity_regularizer = activity_regularizer[0](activity_regularizer[1])
+        self.kernel_regularizer = kernel_regularizer
+        self.bias_regularizer = bias_regularizer
+        self.activity_regularizer = activity_regularizer
 
         self.dropout = Dropout(self.dropoutRate, name='dropout')
         self.conv2d_1 = Conv2D(int(32*alpha), (3,3), strides=2, padding="same", use_bias=self.use_bias, kernel_regularizer=self.kernel_regularizer, bias_regularizer=self.bias_regularizer, activity_regularizer=self.activity_regularizer)
