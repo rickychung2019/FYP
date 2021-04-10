@@ -42,7 +42,7 @@ for i in range(numOfParam):
         f = open("log.txt", "a")
         f.write(str(j) + "EVOLUTION" + " FOR PARAM " + str(i)+"\n")
         f.close()
-        p, tmp = g.evolve(p, i, 1)
+        p = g.evolve(p,0)
     paramRange2.append(g.getParamRange(p, i))
 
 
@@ -65,7 +65,7 @@ for i in range(1, numOfGen2d+1):
     f.write(str(i)+"Evolution\n")
     f.close()
     extra = int(i)
-    p, tmp = g.evolve(p2, 0, numOfParam, extra = extra)
+    p, tmp = g.evolve(p2, 0, extra = extra)
     fitness_history.append(tmp)
 
 print("#############################################################")

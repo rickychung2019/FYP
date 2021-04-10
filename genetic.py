@@ -62,46 +62,46 @@ def grade(pop, extra = 0):
     summed = sum([fitness(x, extra) for x in pop])
     return summed / (len(pop) * 1.0)
 
-def evolve(pop, pos, ln, retain=0.2, random_select=0.05, mutate=0.01, extra = 0,):
+def evolve(pop, mode, retain=0.2, random_select=0.05, mutate=0.01, extra = 0,):
     fit = [ fitness(x, extra) for x in pop]
     graded = []
     for i in range(len(fit)):
         graded.append((fit[i], pop[i]))
     # graded = [ (fitness(x, target), x) for x in pop]
     graded = [x[1] for x in sorted(graded, reverse = True)]
-    retain_length = int(len(graded) * retain)
-    parents = graded[:retain_length]
+    if mode!=0:
+        retain_length = int(len(graded) * retain)
+        parents = graded[:retain_length]
 
-    # randomly add other individuals to promote genetic diversity
-    for individual in graded[retain_length:]:
-        if random_select > random.random():
-            parents.append(individual)
+        # randomly add other individuals to promote genetic diversity
+        for individual in graded[retain_length:]:
+            if random_select > random.random():
+                parents.append(individual)
 
-    # mutate some individuals
-    for individual in parents:
-        if mutate > random.random():
-            individual = m.getParam()
+        # mutate some individuals
+        for individual in parents:
+            if mutate > random.random():
+                individual = m.getParam()
 
-    # crossover parents to create children
-    parents_length = len(parents)
-    desired_length = len(pop) - parents_length
-    children = []
-    while len(children) < desired_length:
-        male = randint(0, parents_length - 1)
-        female = randint(0, parents_length - 1)
-        if male != female:
-            male = parents[male]
-            female = parents[female]
-            if ln != 1:
+        # crossover parents to create children
+        parents_length = len(parents)
+        desired_length = len(pop) - parents_length
+        children = []
+        while len(children) < desired_length:
+            male = randint(0, parents_length - 1)
+            female = randint(0, parents_length - 1)
+            if male != female:
+                male = parents[male]
+                female = parents[female]
                 half = int(len(male) / 2)
-            else:
-                half = pos
-            child = male[:half] + female[half:]
-            children.append(child)
+                child = male[:half] + female[half:]
+                children.append(child)
 
-    parents.extend(children)
+        parents.extend(children)
 
-    return parents, sum(fit) / (len(pop) * 1.0)
+        return parents, sum(fit) / (len(pop) * 1.0)
+    else:
+        return graded
 
 def getParamRange(pop, pos):
     ln = int((len(pop)+1) / 2)

@@ -7,6 +7,20 @@ from tensorflow.keras.regularizers import l1, l2, l1_l2
 from tensorflow.keras.optimizers import SGD, RMSprop, Adam, Adadelta, Adagrad, Adamax, Nadam, Ftrl
 random.seed(1)
 
+def getParam():
+    alpha = random.choice([i*0.25 for i in range(1, 13)]) #12 choices
+    depth = random.choice([1,2,3]) #3 choices
+    activation = random.choice([relu, sigmoid, softmax, softplus, softsign, tanh, selu, elu, exponential]) #9 choices
+    bias = random.choice([False, True]) # 2 choices
+    dropout = random.choice([i*0.1 for i in range(0, 6)]) # 6
+    pooling = random.choice([None, AveragePooling2D(), GlobalAveragePooling2D(), GlobalMaxPooling2D(), MaxPooling2D()]) # 5 choices
+    optimizer = random.choice([SGD, RMSprop, Adam, Adadelta, Adagrad, Adamax, Nadam, Ftrl]) # 8 choices
+    kernel_regularizer = random.choice([None,l1,l2,l1_l2]) # 3 choices
+    bias_regularizer = random.choice([None,l1,l2,l1_l2]) # 3 choices
+    activation_regularizer = random.choice([None,l1,l2,l1_l2]) # 3 choices
+    
+    return [alpha, depth_multiplier, activation, bias, dropout, pooling, optimizer, kernel_regularizer, bias_regularizer, activity_regularizer]
+
 class MobileNet(tf.keras.Model):
     def __init__(self, alpha=1, depth_multiplier=1, activation=relu, use_bias=True, dropout=0.001, pooling=AveragePooling2D(), optimizer=Nadam, kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None):
         super(MobileNet, self).__init__()
