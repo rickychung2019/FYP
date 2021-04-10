@@ -19,10 +19,10 @@ print("Loading Dataset....")
 # y_test = tf.keras.utils.to_categorical(y_test, 10)
 
 #Load FER2013
-x_train, y_train, x_test, y_test = d.FERLoad()
+#x_train, y_train, x_test, y_test = d.FERLoad()
 
 #Load ExpW
-#x_train, y_train, x_test, y_test = d.ExpwLoad('origin', 0.1)
+x_train, y_train, x_test, y_test = d.ExpwLoad('origin', 0.1)
 print("Dataset Loaded")
 
 def population(paramRange, pos):

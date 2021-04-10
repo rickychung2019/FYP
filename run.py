@@ -5,7 +5,7 @@ from tensorflow.keras.regularizers import l1, l2, l1_l2
 from tensorflow.keras.optimizers import SGD, RMSprop, Adam, Adadelta, Adagrad, Adamax, Nadam, Ftrl
 import time
 # modify setting here
-alpha_list = [i*0.5 for i in range(1, 6+1)] #6 choices 0.5, 1, 1.5, ...3
+alpha_list = [i*0.25 for i in range(1, 12+1)] #6 choices 0.5, 1, 1.5, ...3
 depth_multiplier_list = [1,2,3] #3 choices
 activation_list = [relu, sigmoid, softmax, softplus, softsign, tanh, selu, elu, exponential] #9 choices
 bias_list = [False, True] # 2 choices
