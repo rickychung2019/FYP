@@ -9,21 +9,21 @@ alpha_list = [i*0.25 for i in range(1, 12+1)] #12 choices
 depth_multiplier_list = [1,2,3] #3 choices
 activation_list = [relu, sigmoid, softmax, softplus, softsign, tanh, selu, elu, exponential] #9 choices
 bias_list = [False, True] # 2 choices
-dropout_list = [i*0.1 for i in range(0, 6)] # 6 choices 0, 0.1,..., 0.5
-pooling_list = [None, AveragePooling2D(), GlobalAveragePooling2D(), GlobalMaxPooling2D(), MaxPooling2D()] # 5 choices
+dropout_list = [i*0.05 for i in range(0, 11)] # 6 choices 0, 0.1,..., 0.5
+pooling_list = [None, GlobalAveragePooling2D(), GlobalMaxPooling2D()] # 5 choices
 optimizer_list = [SGD, RMSprop, Adam, Adadelta, Adagrad, Adamax, Nadam, Ftrl] # 8 choices
-kernel_regularizer_list =[None,l1,l2,l1_l2] # 4 choices
-bias_regularizer_list =[None,l1,l2,l1_l2] # 4 choices
-activation_regularizer_list =[None,l1,l2,l1_l2] # 4 choices
+kernel_regularizer_list =[None,l1_l2] # 3 choices
+bias_regularizer_list =[None,l1_l2] # 3 choices
+activation_regularizer_list =[None,l1_l2] # 3 choices
+layer_list = [1,2,3,4,5,6,7,8,9,10] #10 choices
 
-paramRange1 = [alpha_list, depth_multiplier_list, activation_list, bias_list, dropout_list, pooling_list, optimizer_list, kernel_regularizer_list, bias_regularizer_list, activation_regularizer_list]
+paramRange1 = [alpha_list, depth_multiplier_list, activation_list, bias_list, dropout_list, pooling_list, optimizer_list, kernel_regularizer_list, bias_regularizer_list, activation_regularizer_list,layer_list]
 paramRange2 = []
 
-pop2d = 200
 numOfGen1d = 1
 numOfGen2d = 4
-numOfParam = 10
-
+numOfParam = 11
+start = time.time()
 # 1d genetic
 for i in range(numOfParam):
     p = g.population(paramRange1[i], i)
@@ -44,7 +44,7 @@ for i in range(numOfParam):
 
 f = open("log.txt", "a")
 f.write("ParamRange,"+str(paramRange2[0])+","+str(paramRange2[1])+","+str(paramRange2[2])+","+str(paramRange2[3])+","+str(paramRange2[4])+","+
-    str(paramRange2[5])+","+str(paramRange2[6])+","+str(paramRange2[7])+","+str(paramRange2[8])+","+str(paramRange2[9])+"\n")
+    str(paramRange2[5])+","+str(paramRange2[6])+","+str(paramRange2[7])+","+str(paramRange2[8])+","+str(paramRange2[9])+","+str(paramRange2[10])+"\n")
 f.close()
 
 end = time.time()

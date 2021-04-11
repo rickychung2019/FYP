@@ -6,27 +6,28 @@ from tensorflow.keras.optimizers import SGD, RMSprop, Adam, Adadelta, Adagrad, A
 
 
 import time
-alpha_list = [1.25, 1.5, 1.75, 2.25, 2.75, 3.0]
-depth_multiplier_list = [2,3]
-activation_list = [relu, sigmoid, tanh, selu, elu]
-bias_list = [False]
-dropout_list = [0.2, 0.3, 0.5]
-pooling_list = [None,  GlobalMaxPooling2D(), MaxPooling2D()]
-optimizer_list = [RMSprop, Adam, Adagrad, Ftrl]
-kernel_regularizer_list =[l1,l2]
-bias_regularizer_list =[None,l2]
-activation_regularizer_list =[l2,l1_l2]
+alpha_list = [i*0.25 for i in range(1, 12+1)] #12 choices
+depth_multiplier_list = [1,2,3] #3 choices
+activation_list = [relu, sigmoid, softmax, softplus, softsign, tanh, selu, elu, exponential] #9 choices
+bias_list = [False, True] # 2 choices
+dropout_list = [i*0.05 for i in range(0, 11)] # 6 choices 0, 0.1,..., 0.5
+pooling_list = [None, GlobalAveragePooling2D(), GlobalMaxPooling2D()] # 5 choices
+optimizer_list = [SGD, RMSprop, Adam, Adadelta, Adagrad, Adamax, Nadam, Ftrl] # 8 choices
+kernel_regularizer_list =[None,l1_l2] # 3 choices
+bias_regularizer_list =[None,l1_l2] # 3 choices
+activation_regularizer_list =[None,l1_l2] # 3 choices
+layer_list = [1,2,3,4,5,6,7,8,9,10] #10 choices
 
 pop2d = 100
 numOfGen1d = 1
 numOfGen2d = 4
-numOfParam = 10
 
 
 fitness_history = []
-paramRange2 = [alpha_list, depth_multiplier_list, activation_list, bias_list, dropout_list, pooling_list, optimizer_list, kernel_regularizer_list, bias_regularizer_list, activation_regularizer_list]
+paramRange2 = [alpha_list, depth_multiplier_list, activation_list, bias_list, dropout_list, pooling_list, optimizer_list, kernel_regularizer_list, bias_regularizer_list, activation_regularizer_list,layer_list]
+start = time.time()
 # 2d genetic
-p2 = g.population2d(pop2d, paramRange2[0], paramRange2[1], paramRange2[2], paramRange2[3], paramRange2[4],paramRange2[5], paramRange2[6], paramRange2[7], paramRange2[8], paramRange2[9])
+p2 = g.population2d(pop2d, paramRange2[0], paramRange2[1], paramRange2[2], paramRange2[3], paramRange2[4],paramRange2[5], paramRange2[6], paramRange2[7], paramRange2[8], paramRange2[9],paramRange2[10])
 for i in range(1, numOfGen2d+1):
     print("#########################################################")
     print("#############################################################")
@@ -38,8 +39,8 @@ for i in range(1, numOfGen2d+1):
     f = open("log.txt", "a")
     f.write(str(i)+"Evolution\n")
     f.close()
-    extra = int(i)
-    p, tmp = g.evolve(p2, 0, extra = extra)
+    extra = 2+int(i/2)
+    p, tmp = g.evolve(p2, 1, extra = extra)
     fitness_history.append(tmp)
 
 print("#############################################################")
@@ -49,7 +50,7 @@ print("Grading the Final Population")
 f = open("log.txt", "a")
 f.write("Grading the Final Population\n")
 f.close()
-fitness_history.append(g.grade(p, int(numOfGen2d/2)))
+fitness_history.append(g.grade(p, 2+int(numOfGen2d/2)))
 print("#############################################################")
 print("#############################################################")
 print("#############################################################")

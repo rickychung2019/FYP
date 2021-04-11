@@ -58,7 +58,7 @@ def ExpwCut(im_path):
 
 def ExpwResize(im_path):
     f = open(im_path+'/'+"label.lst",'r')
-    size = (224,224)
+    size = (112,112)
     for x in f:
         data = x.split()
         im = Image.open(im_path+'/'+"image/"+data[1]+'_'+data[0])
