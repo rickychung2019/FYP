@@ -1,12 +1,10 @@
 # FYP Network Architecture Search for Facial Expression Recognition 
-Author:<br/>
+# Author:
 Chung Wai Kei<br/>
 Chiu Chi Hang<br/>
 Tse Chung Yin<br/>
-<br/>
-Environment:<br/>
+# Environment:
 Python 3.7, tensorflow-gpu 2.0.0, CUDA 10<br/>
-<br/>
-Usage:<br/>
+# Usage:
 Perform pre-search: python preSearch.py (please manually input the result to mainSearch.py)(<br/>
 Perform genetic algorithm: python mainSearch.py<br/>
