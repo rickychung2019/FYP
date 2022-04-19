@@ -1,4 +1,5 @@
 # FYP Network Architecture Search for Facial Expression Recognition 
+Detailed Report: https://drive.google.com/file/d/1Y8YYei87YTquXZo_BjNLTIzMmKzzMezY/view?usp=sharing
 # Author:
 Chung Wai Kei<br/>
 Chiu Chi Hang<br/>
