@@ -22,7 +22,7 @@ y_test = tf.keras.utils.to_categorical(y_test, 10)
 #x_train, y_train, x_test, y_test = d.FERLoad()
 
 #Load ExpW
-#x_train, y_train, x_test, y_test = d.ExpwLoad('origin', 0.09)
+#x_train, y_train, x_test, y_test = d.ExpwLoad('origin', 0.1)
 print("Dataset Loaded")
 
 def population(paramRange, pos):
@@ -51,11 +51,11 @@ def fitness(individual, extra = 0):
     history = model.fit(x_train, y_train, validation_data=(x_test,y_test), epochs=epochs, batch_size=batch_size)
     end = time.time()
     cost = (end - start)/epochs
-    f.write(str(history.history['val_acc'][-1])+','+str(cost)+"\n")
+    f.write(str(history.history['val_accuracy'][-1])+','+str(cost)+"\n")
     #f.write(str(history.history['val_accuracy'][-1])+"\n")
     f.close()
     tf.keras.backend.clear_session()
-    score = history.history['val_acc'][-1] - cost/1000
+    score = history.history['val_accuracy'][-1] - cost/1000
     return score
 
 def grade(pop, extra = 0):
@@ -81,7 +81,8 @@ def evolve(pop, mode, retain=0.2, random_select=0.05, mutate=0.01, extra = 0):
         # mutate some individuals
         for individual in parents:
             if mutate > random.random():
-                individual = m.getParam()
+                chosen = random.choice([i for i in range(11)])
+                individual[chosen] = m.getParam()[chosen]
 
         # crossover parents to create children
         parents_length = len(parents)

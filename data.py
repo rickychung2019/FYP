@@ -17,13 +17,6 @@ def FERLoad():
 
     return x_train, y_train, x_test, y_test
 
-def ExpwLoadFromNp(im_path):
-    f1 = open(im_path+'/'+"x_train.npy",'r')
-    f2 = open(im_path+'/'+"y_train.npy",'r')
-    f3 = open(im_path+'/'+"x_test.npy",'r')
-    f4 = open(im_path+'/'+"y_test.npy",'r')
-    return np.load(f1), np.load(f2), np.load(f3), np.load(f4)
-
 def ExpwLoad(im_path, portion):
     x_train, y_train, x_test, y_test = [], [], [], []
     f = open(im_path+'/'+"label.lst",'r')

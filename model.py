@@ -11,15 +11,15 @@ random.seed(1)
 def getParam():
     alpha = random.choice([i*0.25 for i in range(1, 13)]) #12 choices
     depth_multiplier = random.choice([1,2,3]) #3 choices
-    activation = random.choice([relu, sigmoid, softmax, softplus, softsign, tanh, selu, elu, exponential]) #9 choices
+    activation = random.choice([relu, sigmoid, softmax, softplus, softsign, tanh, selu, elu]) #8 choices
     bias = random.choice([False, True]) # 2 choices
     dropout = random.choice([i*0.05 for i in range(0, 11)]) # 11
     pooling = random.choice([None, GlobalAveragePooling2D(), GlobalMaxPooling2D()]) # 3 choices
     optimizer = random.choice([SGD, RMSprop, Adam, Adadelta, Adagrad, Adamax, Nadam, Ftrl]) # 8 choices
-    kernel_regularizer = random.choice([None,l1,l2]) # 3 choices
-    bias_regularizer = random.choice([None,l1,l2]) # 3 choices
-    activity_regularizer = random.choice([None,l1,l2]) # 3 choices
-    layer = random.choice([1,2,3,4,5,6,7,8,9,10]) #5 choices
+    kernel_regularizer = random.choice([None,l1,l2]) # 2 choices
+    bias_regularizer = random.choice([None,l1,l2]) # 2 choices
+    activity_regularizer = random.choice([None,l1,l2]) # 2 choices
+    layer = random.choice([1,2,3,4,5,6,7,8,9,10]) #10 choices
 
     return [alpha, depth_multiplier, activation, bias, dropout, pooling, optimizer, kernel_regularizer, bias_regularizer, activity_regularizer, layer]
 
@@ -89,7 +89,7 @@ class MobileNet(object):
         if self.dropoutRate != 0:
             x = Dropout(self.dropoutRate, name='dropout')(x)
         x = Flatten(name='flatten')(x)
-        output_layer = Dense(10, activation='softmax')(x)
+        output_layer = Dense(7, activation='softmax')(x)
 
         model = tf.keras.Model(inputs=input_layer, outputs=output_layer)
         for layer in model.layers:

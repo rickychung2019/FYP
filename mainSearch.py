@@ -6,17 +6,17 @@ from tensorflow.keras.optimizers import SGD, RMSprop, Adam, Adadelta, Adagrad, A
 
 
 import time
-alpha_list = [i*0.25 for i in range(1, 12+1)] #12 choices
-depth_multiplier_list = [1,2,3] #3 choices
-activation_list = [relu, sigmoid, softmax, softplus, softsign, tanh, selu, elu, exponential] #9 choices
-bias_list = [False, True] # 2 choices
-dropout_list = [i*0.05 for i in range(0, 11)] # 6 choices 0, 0.1,..., 0.5
-pooling_list = [None, GlobalAveragePooling2D(), GlobalMaxPooling2D()] # 5 choices
-optimizer_list = [SGD, RMSprop, Adam, Adadelta, Adagrad, Adamax, Nadam, Ftrl] # 8 choices
-kernel_regularizer_list =[None,l1_l2] # 3 choices
-bias_regularizer_list =[None,l1_l2] # 3 choices
-activation_regularizer_list =[None,l1_l2] # 3 choices
-layer_list = [1,2,3,4,5,6,7,8,9,10] #10 choices
+alpha_list = [1.0, 0.25, 0.75, 2.25, 0.5, 2.5]
+depth_multiplier_list = [3, 1]
+activation_list = [selu, softplus, softmax, elu]
+bias_list = [False]
+dropout_list = [0.30000000000000004, 0.2, 0.1, 0.35000000000000003, 0.05, 0.45]
+pooling_list = [GlobalAveragePooling2D(), GlobalMaxPooling2D()]
+optimizer_list = [Adam, Nadam,Adamax, Adagrad]
+kernel_regularizer_list =[None]
+bias_regularizer_list =[None]
+activation_regularizer_list =[None]
+layer_list = [1, 2, 3, 5, 6]
 
 pop2d = 100
 numOfGen1d = 1
@@ -63,5 +63,5 @@ for datum in fitness_history:
 f = open("log.txt", "a")
 cost = end - start
 f.write("Time Spent\n")
-f.wrtie(str(cost))
+f.write(str(cost))
 f.close()
