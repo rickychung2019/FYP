@@ -89,7 +89,7 @@ class MobileNet(object):
         if self.dropoutRate != 0:
             x = Dropout(self.dropoutRate, name='dropout')(x)
         x = Flatten(name='flatten')(x)
-        output_layer = Dense(7, activation='softmax')(x)
+        output_layer = Dense(10, activation='softmax')(x)
 
         model = tf.keras.Model(inputs=input_layer, outputs=output_layer)
         for layer in model.layers:
